@@ -31,12 +31,17 @@ When /I (un)?check the following ratings: (.*)/ do |uncheck, rating_list|
   #   "When I uncheck..." steps in lines 89-95 of web_steps.rb
   if uncheck
     # uncheck all the boxes whose values are in rating_list
-    ratings_list.split.each |rating| do
-
+    rating_list.split(',').each do |rating|
+      #p r.gsub(" ", "")
+      find("#ratings_#{rating.gsub(' ', '')}").set(false)
     end
   else
-    #check all the boxes in rating_list
+    rating_list.split(',').each do |rating|
+      page.check("ratings[#{rating.gsub(' ', '')}]")
+    end
   end
+  # require 'pry'
+  # binding.pry
 
   # steps( %Q(
   #   Then I visit "/movies"
