@@ -59,3 +59,14 @@ Then /I should see all the movies/ do
     expect(page).to have_content(title)
   end
 end
+
+Then(/^I should( not)? see movies with ratings: (.*)$/) do |not_see, rating_list|
+  movie_list = Movie.where(rating: rating_list.split(",").map(&:strip)).pluck(:title)
+  movie_list.each do |title|
+    if not_see
+      expect(page).to have_no_content(title)
+    else
+      expect(page).to have_content(title)
+    end
+  end
+end
